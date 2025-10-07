@@ -1,31 +1,22 @@
 
-#### 4. 来抓卧底吧！
+#### 4. 不合群的数字
 
->在一场游戏中，房间里有一组玩家，每个玩家都有一个整数 ID;  
->所有玩家 ID 中，只有 两个玩家的 ID 出现了奇数次，其他 ID 都出现偶数次;  
->我们是怎么抓到这两个卧底的呢？
+>在一个数组中，所有数字都出现了偶数次，只有两个数字出现了奇数次，请聪
+明的你帮我看看以下的代码是如何找到这两个数字的呢？
 
 ```c
 #include <stdio.h>
 
-void findUndercoverIDs(int players[], int n, int *a, int *b) {
-    int xorAll = 0;
-    // n 是数组大小
-    for (int i = 0; i < n; i++) {
-        xorAll ^= players[i];
+void findUndercoverIDs(int nums[], int size) {
+    int xorAll = 0,id_a = 0,id_b = 0;
+    for (int i = 0; i < size; i++) {
+        xorAll ^= nums[i];
     }
-
     int diffBit = xorAll & -xorAll;
-
-    // a, b 是卧底ID
-    *a = 0;
-    *b = 0;
-    for (int i = 0; i < n; i++) {
-        if (players[i] & diffBit)
-            *a ^= players[i];
-        else
-            *b ^= players[i];
+    for (int i = 0; i < size; i++) {
+        (nums[i] & diffBit ? id_a : id_b) ^= nums[i];
     }
+    printf("These nums are %d %d",id_a,id_b);
 }
 ``` 
 ------
@@ -41,7 +32,7 @@ void findUndercoverIDs(int players[], int n, int *a, int *b) {
 
 #### 问题
 Q1. 简述函数 findUndercoverIDs 的功能，输入输出是什么？	10%   
-Q2.	解释为什么 xorAll ^= players[i] 可以抵消偶数次出现的元素，保留奇数次元素	30%  
+Q2.	解释为什么 xorAll ^= nums[i] 可以抵消偶数次出现的元素，保留奇数次元素	30%  
 Q3.	解释 diffBit = xorAll & -xorAll 的作用，以及为什么可以提取最低不同位 20%  
 Q4.	说明为什么根据 diffBit 将数组分成两组，再分别异或可以得到两个奇数次元素	30%  
 Q5.	分析函数的时间复杂度和空间复杂度  10%
